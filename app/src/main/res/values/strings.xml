@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Arrow Escape: Shape Puzzle</string>
+
+    <!-- The daily reminder. One channel, one notification a day. -->
+    <string name="reminder_channel_name">Daily Mystery</string>
+    <string name="reminder_channel_description">One reminder a day when the Daily Challenge is ready.</string>
+    <string name="reminder_title">Today\'s mystery shape is ready \u2728</string>
+    <string name="reminder_text">Can you figure out what it is?</string>
+</resources>

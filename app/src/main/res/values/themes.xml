@@ -1,0 +1,20 @@
+<resources>
+    <!-- Colors and styling come from Compose (ArrowEscapeTheme); this theme only
+         needs to give the activity a bar-less, edge-to-edge friendly window. The window
+         is navy in both themes: every screen sits on dark-scrimmed artwork, and a white
+         frame between the system splash and the first Compose frame would be a flash. -->
+    <style name="Theme.ArrowEscape" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/splash_background</item>
+    </style>
+
+    <!-- What the system shows while the process starts: the navy and nothing else. The
+         "icon" is a blank drawable on purpose — the logo is built, piece by piece, by the
+         Compose loading screen that takes over, and a second logo under it would double up.
+         `installSplashScreen()` swaps this for Theme.ArrowEscape as soon as the first frame
+         is ready. -->
+    <style name="Theme.ArrowEscape.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon_blank</item>
+        <item name="postSplashScreenTheme">@style/Theme.ArrowEscape</item>
+    </style>
+</resources>

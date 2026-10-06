@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <!-- The deep navy under every screen (GamePalette.Navy). The system splash, the window
+         behind Compose and the animated loading screen all start from this one colour,
+         which is what makes the hand-off from one to the next invisible. -->
+    <color name="splash_background">#FF0A0E2B</color>
+</resources>

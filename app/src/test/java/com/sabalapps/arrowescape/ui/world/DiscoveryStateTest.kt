@@ -289,7 +289,7 @@ class DiscoveryStateTest {
             result.spokenSummary
         )
         val first = DiscoveryResult.of(2, false, progressAfter(cleared = 2))!!
-        assertTrue(first.spokenSummary.startsWith("New discovery. Flower."))
+        assertTrue(first.spokenSummary.startsWith("New discovery. Star."))
     }
 
     @Test
@@ -337,7 +337,7 @@ class DiscoveryStateTest {
         assertEquals("ALL DISCOVERIES FOUND", last.completionTitle)
         assertEquals("30 / 30", last.completionCount)
         assertEquals(
-            listOf("Star", "Owl", "Treasure Chest", "Crown", "Galaxy"),
+            listOf("Flower", "Owl", "Treasure Chest", "Crown", "Galaxy"),
             last.completionSet.map { it.name }
         )
         // One per world, in world order.

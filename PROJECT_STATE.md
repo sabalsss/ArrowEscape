@@ -20,6 +20,10 @@ tests).
 lessons, respectful Rate/Share prompts and the animated loading screen. It touches no puzzle rule, layout, generator,
 discovery artwork or world background. **Nothing in §4l has been seen on a device** — compiled and JVM-tested only (914
 tests); §4l ends with the list of things to look at first.
+**§4m (the Sky Garden onboarding order, `Levels.LAYOUT_VERSION` 5) is the newest content change** — Campaign Levels 1–6 are
+now Heart, Star, Kite, Bird, Cloud, Flower (they were Cloud, Flower, Kite, Bird, Heart, Star), with new boards for all six
+and levels 7–30 untouched. Compiled + 924 JVM tests; **not seen on a device.** Where §4d/§4j/§6 name the old Level 1–6
+pictures, §4m wins.
 **Not a roadmap.** This describes what exists, what half-exists, and what does not.
 
 ---
@@ -60,7 +64,7 @@ Build/test commands:
 ```bash
 export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 ./gradlew testDebugUnitTest                        # 911 fast tests + 3 gated skips, ~25s
-./gradlew testDebugUnitTest -Darrowescape.stress=1 # all 914, 5,000 boards in the stress tests
+./gradlew testDebugUnitTest -Darrowescape.stress=1 # all 924, 5,000 boards in the stress tests
 ./gradlew assembleDebug
 ```
 `-Darrowescape.stress` is forwarded into the test JVM by `app/build.gradle.kts` `testOptions`.
@@ -383,7 +387,7 @@ cells and drawing the silhouette was Phase 3 — §4e). Phase 2 also renamed Cry
 
 | Levels | World | Discoveries |
 |---|---|---|
-| 1–6 | Sky Garden | Cloud · Flower · Kite · Bird · Heart · Star |
+| 1–6 | Sky Garden | Heart · Star · Kite · Bird · Cloud · Flower (§4m; was Cloud · Flower · Kite · Bird · Heart · Star) |
 | 7–12 | Forest | Leaf · Mushroom · Tree · Butterfly · Fox · Owl |
 | 13–18 | Sunset Canyon | Sun · Cactus · Mountain · Canyon Arch · Eagle · Treasure Chest |
 | 19–24 | Crystal Night | Gem · Crescent Moon · Crystal · Snowflake · Magic Star · Crown |
@@ -402,7 +406,7 @@ discovery name is still not shown during play (the HUD says "Level N / World"; t
 
 **One presentation per mode** (`ui/BoardPresentation.kt`, pure). `boardPresentationFor(mode)`:
 `Campaign`, `Tutorial`, `Endless` **and** `Daily` → `Shape` (Endless/Daily were `Grid` until §4k). The replayed tutorial is a shape
-because it plays Level 1's Cloud, the same board the first run shows as a real Campaign level.
+because it plays Level 1's Heart, the same board the first run shows as a real Campaign level.
 `GameScreen` decides once and `Board` dispatches to `GridBoard` or `ShapeBoard`; nothing below asks
 "which mode". Both place the same `ArrowCell`s through one `BoardPieces`, so taps, animations, VFX,
 hint, semantics and sound are literally the same code.
@@ -618,6 +622,8 @@ made `internal` (with `scale`/`animate`/`delay` parameters) for reuse.
 ---
 
 ## 4j. Pacing re-author — IMPLEMENTED (layouts: 8 of 30; `Levels.LAYOUT_VERSION` 3)
+
+**Superseded for Levels 1–6 by §4m** (the Sky Garden was re-ordered and re-authored; "5 Heart" / "6 Star" below are now Cloud / Flower at those ids).
 
 Follow-up to the §4i audit. **Silhouettes, arrow counts and board sizes are unchanged**; only the directions of eight
 boards changed, via the dev-only `ShapeAuthoring` (test source set), so the other 22 layouts are byte-identical to
@@ -926,7 +932,7 @@ outline overlay and the art canvases carry no semantics. After the reveal one po
 
 | Store | Change | What happens to an old record |
 |---|---|---|
-| Campaign `saved_game` | `Levels.LAYOUT_VERSION` 3 → **4** (five redrawn silhouettes) | in-progress board saved under 3 is discarded; `player_progress` (completions, stars, unlock) untouched |
+| Campaign `saved_game` | `Levels.LAYOUT_VERSION` 3 → **4** (five redrawn silhouettes); 4 → **5** in §4m (Sky Garden order) | in-progress board saved under an older version is discarded; `player_progress` (completions, stars, unlock) untouched |
 | Endless `endless_game` | record **v2**: `2\|seed\|num\|TIER\|lives\|ids\|generatorVersion` (was v1, six fields) | a v1 record, a wrong field count or another generator version is discarded *and wiped*; `endless_progress` (v1, unchanged: puzzle number, total, streaks) untouched |
 | Daily `daily_game` | `DailyChallenge.GENERATOR_VERSION` 1 → **2** (mixed into every seed) | a record whose seed no longer matches its date's is discarded by the existing cross-check; `daily_progress` (streak, best, total, last date) untouched |
 
@@ -1167,8 +1173,69 @@ mid-lesson" tests now describe *before the first escape*).
 - A reminder is dropped (not sent late) when the system holds it more than 4h past 6pm; OEM battery managers can still delay or kill WorkManager work.
 - The reminder time is not user-configurable (one constant).
 - "Session" for the prompt cap is one launch of the activity, not an idle-time window.
-- The launcher icon is still the Android Studio template (§17).
+- The launcher icon is the supplied "Arrow Escape" artwork (adaptive: `drawable-nodpi/ic_launcher_bg.png` blurred sky + `ic_launcher_fg.png` art at 74% of the canvas; legacy/round `mipmap-*/*.webp`; in-app `drawable-nodpi/app_icon.png`). No themed (monochrome) icon.
 - The new surfaces use hardcoded English like the rest of the UI (notification copy is in `strings.xml`).
+
+---
+
+## 4m. Sky Garden onboarding order — IMPLEMENTED (content only; `Levels.LAYOUT_VERSION` 5; not seen on a device)
+
+The first session now opens on the three most readable pictures in the catalogue. **Only Levels 1–6 changed; 7–30 are byte-identical
+to version 4.** No rule, tutorial logic, star rule, discovery system, collection logic or shape-confirmation code changed.
+
+| Level | Discovery (art key) | Was | Board | Arrows | Opening free | Passes (depth) | Effort | Role |
+|---|---|---|---|---|---|---|---|---|
+| 1 | **Heart** (`sky_heart`) | Cloud | 4×5 | 11 | 3 | 4 (`3,4,3,1`) | 25.3 | the hand-guided rule; every opener blocks someone |
+| 2 | **Star** (`sky_star`) | Flower | 4×5 | 11 | 3 | 4 (`3,4,2,2`) | 26.5 | one removal frees another (`DependencyLesson`) |
+| 3 | **Kite** (`sky_kite`) | Kite | 6×5 | 12 | 4 | 4 (`4,4,2,2`) | 27.6 | a little independent thinking: four openings, ≥ 2 that unlock others |
+| 4 | **Bird** (`sky_bird`) | Bird | 4×6 | 12 | 4 | 5 | 28.5 | |
+| 5 | **Cloud** (`sky_cloud`) | Heart | 3×6 | 12 | 4 | 4 | 27.0 | Sky **breather** (−5%), opens with ≥ L4's openers |
+| 6 | **Flower** (`sky_flower`) | Star | 5×5 | 12 | 4 | 5 | 30.4 | Sky finale; L7 (36.3) is +19% |
+
+Silhouettes (blueprints in `CampaignShapes`; the polished outlines were checked on the SVG review sheets):
+
+```
+1 Heart      2 Star      3 Kite       4 Bird      5 Cloud     6 Flower
+.#.#.        ..#..       ..#..        #....#      .#.#..      .###.
+#####        #####       .###.        ##..##      ######      ##.##
+.###.        .###.       #####        .####.      .####.      .###.
+..#..        .#.#.       ..#..        ..##..                  ..#..
+                         .#...                                ..#..
+                         #....
+```
+
+**Why the counts are 11/11/12 and not the brief's 8–10 / 10–12 / 10–13.** Two hard constraints met in the middle: (a) arrow counts never
+decrease down the catalogue and Level 7 (Leaf) is 12, so nothing in Sky can exceed 12 and everything after Level 1 must be ≥ it;
+(b) the old Cloud/Flower (8 cells) and Bird (10) could not follow a Level-3 board of 10+, so they were redrawn bigger. Heart: the
+canonical 11-cell heart is the only one that reads as a heart in the polished outline — the 8-cell (`##.##/.###./..#..`) and 10-cell
+variants read as a V / a bean. Star: 11 is the smallest star with tip, arms, body and two legs that did not read as a tree or a
+cross. Level 1's effort (25.3) is the minimum the heart allows with exactly 3 openers (depth 3 is not reachable on 11 cells), so
+Sky is a *plateau* (25 → 30) rather than the old 14 → 29 ramp; effort steps are +5%, +4%, +3%, −5% (breather), +13%.
+
+**Authoring.** `ShapeAuthoring` (dev-only, test source set), 150,000 constructions per level, filtered per level then a DP over the
+six with the unchanged Level 7 held fixed: Level 1 — 2–3 openers, every opener blocks someone, forced-move share ≤ 22%, the
+`HintEngine` spotlight frees another arrow; Level 2 — a hub that frees ≥ 2, ≥ 2 useful openers; Level 3 — ≥ 2 useful openers, ≤ 1
+irrelevant opener; Levels 4–6 — the §4j pacing bar. Steps L1→L2→L3 within 1.04–1.25×, L5/L4 within 0.90–0.97× with ≥ the
+openers, L6/L5 ≥ 1.07×, L7/L6 within 1.05–1.33×. Seeds are in `Level.kt`: L1 1002174, L2 2136197, L3 3002416, L4 4038484, L5 5042627,
+L6 6035026. **First attempt at the Kite was a 3-column diamond + diagonal tail; it read as an exclamation mark and its tail cells
+were unblockable free taps, so it was replaced** (a tail whose cells share rows/columns with the head is part of the puzzle).
+
+**Discovery mapping / migration.** `CampaignDiscoveries` is reordered; art keys, names and the `DiscoveryArtRegistry` drawings are
+unchanged (an art key is still permanent — only which *level id* hides it moved). Collected state is derived from
+`completedLevels`, so a returning player who had cleared levels 1/2/5/6 now sees Heart/Star/Cloud/Flower as collected in those
+slots rather than Cloud/Flower/Heart/Star: the *count* is exact, the *identity per slot* follows the new order. Completed levels,
+stars and unlocks are keyed by id and untouched; `LAYOUT_VERSION` 4 → 5 discards only an in-progress Campaign board (saved arrow
+ids are layout positions). A first-time player's tutorial flags (`tutorial_completed`, `onboarding_level2_completed`) are unchanged.
+
+**Tests.** `game.SkyOnboardingTest` (10, new); updated: `CampaignRegressionTest` (SHA-256 `8e3cc50d…ac96`, counts, sizes, version 5),
+`CampaignDiscoveriesTest` (names, art keys), `DiscoveryStateTest`, `DiscoveryRevealFlowTest` (Level 1 discovers the Heart),
+`BoardPresentationTest` (no board has margin rows any more; Level 2 capped at 60dp), `CampaignShapeMaskTest` (Heart one piece,
+Flower's open centre), `CampaignPacingTest` (Level 4 joins the re-authored bar), `ProgressRepositoryTest` (a version-4 save is
+discarded). **Verified: `compileDebugKotlin` OK; full JVM suite 924 tests, 0 failures, 3 skipped (the gated stress tests).**
+
+**Look at on a device:** the Heart/Star/Kite outline-then-reveal sequence (the Kite's two tail cells trace as separate small loops —
+corner contact, like the Satellite's antenna); the Flower's open centre in the outline; Level 1 at 11 arrows with the hand (the
+old tutorial board was 8); the Kite board is 6 rows tall.
 
 ---
 
@@ -1210,8 +1277,8 @@ does the same — an id means the same thing in a save file, a debug log and a h
 `Level.name` is still "Level N"; the thematic name is `CampaignDiscovery.name`.
 
 **The occupied cells are the picture; the directions are the puzzle.** Each level's occupied cells
-draw its discovery (a Cloud, a Heart, a Rocket…), at most 6 columns × 9 rows, with empty cells as part
-of the silhouette (a board is as tall and wide as its picture; only Level 1 has a margin row top and
+draw its discovery (a Heart, a Cloud, a Rocket…), at most 6 columns × 9 rows, with empty cells as part
+of the silhouette (a board is as tall and wide as its picture; since §4m no board has a margin row top and
 bottom). The blueprints live in `src/test/.../game/CampaignShapes.kt` and
 `CampaignShapesTest` pins every level's occupied cells to its blueprint, so a layout edit cannot
 quietly redraw a level's picture. `build/reports/levels/campaign-shapes.md` (written by that test)
@@ -1220,7 +1287,7 @@ arrows, solvable — plus every silhouette drawn out; Phase 3 starts from it.
 
 | Levels | World | Arrows | Opening free | Notes |
 |---|---|---|---|---|
-| 1–6 | Sky Garden | 8, 8, 10, 10, 11, 12 | 3–4 | Level 1 is the tutorial board; 5, 6 re-authored (§4j) |
+| 1–6 | Sky Garden | 11, 11, 12, 12, 12, 12 | 3–4 | §4m: Heart (tutorial board), Star, Kite, Bird, Cloud, Flower — all six re-authored |
 | 7–12 | Forest | 12, 14, 14, 15, 15, 15 | 3–4 | 9, 11, 12 re-authored (§4j) |
 | 13–18 | Sunset Canyon | 17, 17, 17, 20, 22, 22 | 4–6 | 17 re-authored (§4j) |
 | 19–24 | Crystal Night | 22, 23, 24, 24, 28, 28 | 5–7 | 23 re-authored (§4j) |
@@ -1251,12 +1318,12 @@ depth 10 with 7 openers and effort 149. The *curve* is the same shape (monotone,
 hardest) but tops out lower on the scanning-effort scale; that is a consequence of the brief's
 "several openers, peeling-apart, no one-arrow-at-a-time chains", not an accident.
 
-**Level 1 and the tutorial.** Level 1 is the Cloud (8 arrows, 3 free at the start, depth 3).
+**Level 1 and the tutorial.** Level 1 is the Heart (§4m: 11 arrows, 3 free at the start, depth 4; it was the 8-arrow Cloud).
 `TutorialState` references no arrow ids — the spotlight is `HintEngine.hint()` — so nothing needed
 re-pointing; `CampaignShapesTest` asserts the board still supplies the lesson (something free,
 something blocked, the spotlighted arrow frees another, ≤ 3 openers, ≤ 4 passes).
 
-**`Levels.LAYOUT_VERSION`** (currently **4** — §4k: five silhouettes redrawn; 3 = the §4j pacing re-author; 2 = the Phase 2 silhouettes, 1 = the original abstract layouts) is the version of the
+**`Levels.LAYOUT_VERSION`** (currently **5** — §4m: the Sky Garden order, Levels 1–6; 4 = §4k: five silhouettes redrawn; 3 = the §4j pacing re-author; 2 = the Phase 2 silhouettes, 1 = the original abstract layouts) is the version of the
 layouts and **must be bumped whenever any layout changes** — `CampaignRegressionTest` pins the
 catalogue by SHA-256 and its failure message says so. It exists for the save rule in §10.
 
@@ -1453,7 +1520,7 @@ CHAIN + anything → FINISHED · board ends → FINISHED from any step.
 A run of blocked taps deliberately does not advance — the explanation stays until the player gets
 one right — so what is bounded is the number of *successful* taps (≤2), not taps.
 
-Shows on the first-ever Campaign Level 1 only (since Discovery Phase 2, the Cloud — see §6; the state
+Shows on the first-ever Campaign Level 1 only (since §4m the Heart — it was the Cloud from Discovery Phase 2 — see §6; the state
 machine never named an arrow, so the redraw needed no change here). **Since §4l** `tutorial_completed` is written at the *first
 escape* (`TutorialStep.isTaught`: `CHAIN` or later), not when the lesson ends — a player who tapped the guided arrow and backed
 out has been taught — and `BLOCKED`/`TAP_FREE` also show the animated hand (`showsHand`). **Replay Tutorial does not clear the
@@ -1880,7 +1947,7 @@ verified on a device**.
 
 ---
 
-## 16. Test coverage — 914 tests, 0 failures, 3 skipped (gated stress tests; they pass with the flag)
+## 16. Test coverage — 924 tests, 0 failures, 3 skipped (gated stress tests; they pass with the flag)
 
 911 fast (~25s) + 3 stress (gated). The table below lists the suites as of §4j; the shape-discovery additions are in §4k ("Tests added") and the retention/onboarding/launch ones (177) in §4l ("Tests added"). **No instrumentation tests** —
 `app/src/androidTest/java` exists but is empty. No Compose UI tests, no screenshot tests.
@@ -1907,6 +1974,7 @@ verified on a device**.
 | `endless.EndlessTierTest` | 14 | quality rules, one broken rule at a time |
 | `game.LevelCatalogueTest` | 14 | all 30 solvable via independent DFS + replayed witness, per-world arrow bands, several openers |
 | `game.CampaignShapesTest` | 7 | every level's occupied cells = its silhouette blueprint, Level 1 still carries the tutorial lesson, writes the shape review table |
+| `game.SkyOnboardingTest` | 10 | §4m: Sky order and art keys, L1–L3 exact layouts, opening counts, hand/dependency lesson still land, gentle effort ramp |
 | `game.ShapeAuthoringTest` | 5 | the dev-only authoring helper builds verified, silhouette-faithful boards for every blueprint |
 | `endless.SeededRandomTest` | 12 | distribution, reproducibility |
 | `endless.BoardAnalysisTest` | 11 | peel, verifyOrder, runs |
@@ -1960,7 +2028,7 @@ structurally (separate prefs file) rather than tested.
 ### Open / accepted
 | | Severity | Note |
 |---|---|---|
-| **Stock launcher icon** | medium | `ic_launcher_foreground.xml` is still the Android Studio green-robot template. Needs a real mark — an `ArrowGlyph`-derived adaptive icon would fit. |
+| Launcher icon | resolved | Real artwork now (see §4l limits); no `<monochrome>` layer for Android 13 themed icons |
 | Device clock manipulates streaks | accepted | documented in `DateProvider` KDoc |
 | Worst-case generation 1.9→2.6 ms | low | single noisy sample; average improved |
 | Portrait only | by design | no landscape layout exists |

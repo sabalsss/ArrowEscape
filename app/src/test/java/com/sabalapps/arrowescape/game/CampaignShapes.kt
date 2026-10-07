@@ -15,9 +15,9 @@ package com.sabalapps.arrowescape.game
  * pixel-perfect artwork. Where a subject was hard to draw at that size the
  * choice is noted beside it.
  *
- * Empty cells matter: a shape occupies only what its silhouette needs. Level 1
- * is the one board with a margin row above and below, so the Cloud's two-row
- * body is not a thin strip on a tall phone.
+ * Empty cells matter: a shape occupies only what its silhouette needs, and no blueprint
+ * carries a margin row or column of its own (the Cloud that once had one is Level 5 now and
+ * is drawn on exactly its three rows).
  */
 data class CampaignShape(
     val levelId: Int,
@@ -46,50 +46,48 @@ object CampaignShapes {
     val ALL: List<CampaignShape> = listOf(
         // ---- Sky Garden ----------------------------------------------------
         shape(
-            1, "Cloud", "flat base with a large and a small bump on top, framed by empty rows",
-            ".....",
-            ".##.#",
-            "#####",
-            "....."
-        ),
-        shape(
-            2, "Flower", "four-petal head on a stem with one leaf",
-            ".#.",
-            "###",
-            ".#.",
-            "##.",
-            ".#."
-        ),
-        shape(
-            3, "Kite", "tall diamond head with a diagonal tail",
-            "..#..",
-            ".###.",
-            ".###.",
-            "..#..",
-            ".#...",
-            "#...."
-        ),
-        shape(
-            4, "Bird", "wings swept up to the corners, body and tail below",
-            "#....#",
-            ".#..#.",
-            ".####.",
-            "..##.."
-        ),
-        shape(
-            5, "Heart", "two lobes over a tapering body",
+            1, "Heart", "two lobes over a tapering body down to a single point",
             ".#.#.",
             "#####",
             ".###.",
             "..#.."
         ),
         shape(
-            6, "Star", "five-point star: tall tip, arms, body and two feet",
-            "..#..",
+            2, "Star", "five-point star: a tip over wide arms, a body and two legs",
             "..#..",
             "#####",
             ".###.",
             ".#.#."
+        ),
+        shape(
+            3, "Kite", "a diamond head, widest across the middle, tapering to a point with a tail of two trailing away",
+            "..#..",
+            ".###.",
+            "#####",
+            "..#..",
+            ".#...",
+            "#...."
+        ),
+        shape(
+            4, "Bird", "a gull: wings swept up to the corners, a body and a short tail",
+            "#....#",
+            "##..##",
+            ".####.",
+            "..##.."
+        ),
+        shape(
+            5, "Cloud", "a flat-bottomed cloud with two humps on top and a shoulder to the right",
+            ".#.#..",
+            "######",
+            ".####."
+        ),
+        shape(
+            6, "Flower", "a ringed daisy head with an open centre on a straight stem",
+            ".###.",
+            "##.##",
+            ".###.",
+            "..#..",
+            "..#.."
         ),
 
         // ---- Forest --------------------------------------------------------

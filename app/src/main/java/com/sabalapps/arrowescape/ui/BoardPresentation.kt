@@ -24,7 +24,7 @@ enum class BoardPresentation { Grid, Shape }
 /**
  * The presentation for [mode]: [BoardPresentation.Shape] for all of them.
  *
- * The replayed tutorial is a shape because it plays Level 1's layout, the same Cloud the first
+ * The replayed tutorial is a shape because it plays Level 1's layout, the same Heart the first
  * run shows as a real Campaign level. Daily and Endless are shapes because their puzzles are
  * built *to* a picture (see `MysteryShapes`) — drawn on a grid with a slot for every cell, that
  * picture would be half hidden by the very rectangle it was designed to escape.
@@ -54,7 +54,8 @@ object ShapeAnticipation {
  * the level's own coordinates (both ends inclusive).
  *
  * Presentation only. A Campaign layout may carry margin rows or columns that are
- * not part of its picture (Level 1's Cloud has an empty row above and below), and
+ * not part of its picture (none does today — Level 1 used to be a Cloud framed by empty rows — but
+ * a future board might), and
  * centring the whole grid would put the picture off-centre. Nothing is cropped
  * from the level: an empty row *inside* these bounds — an Owl's eye, a Chest's
  * lid gap — is part of the silhouette and stays exactly where it is.

@@ -87,7 +87,8 @@ class CampaignShapeMaskTest {
         // its own outline and the gap beneath it is open, not a hole.
         assertEquals("Satellite has no enclosed hole", 0, holes(29))
         assertEquals("Satellite's antenna is its own outline", 2, GridContourTracer.trace(ShapeMask.of(Levels.byId(29)!!)).outer.size)
-        assertEquals("a Cloud is one piece", 0, holes(1))
+        assertEquals("a Heart is one piece", 0, holes(1))
+        assertEquals("the Flower's open centre", 1, holes(6))
     }
 
     @Test

@@ -64,8 +64,14 @@ object Levels {
      *     new pictures with new directions. The other twenty-five layouts are
      *     byte-identical to version 3. Completed levels, stars and unlocks are keyed by id
      *     and untouched; only an in-progress board saved under version 3 is discarded.
+     * 5 = the Sky Garden onboarding order (Heart, Star, Kite, Bird, Cloud, Flower): Levels 1-3
+     *     are the new first-session boards and Levels 4-6 carry the discoveries that moved
+     *     out of their way (Bird redrawn at 12 arrows, Cloud and Flower redrawn bigger so arrow
+     *     counts still never go down). Levels 7-30 are byte-identical to version 4. Completed
+     *     levels, stars and unlocks are keyed by id and untouched; only an in-progress
+     *     board saved under version 4 is discarded.
      */
-    const val LAYOUT_VERSION = 4
+    const val LAYOUT_VERSION = 5
 
     /**
      * The full catalogue, in play order. Every level is the silhouette of its
@@ -96,18 +102,18 @@ object Levels {
      */
     val ALL: List<Level> = listOf(
         // ---- Sky Garden
-        // 1 Cloud · 8 arrows · 4x5 · 3 free at the start · seed 13335
-        level(1, ".....", ".^<.v", "^<>>v", "....."),
-        // 2 Flower · 8 arrows · 5x3 · 3 free at the start · seed 1430
-        level(2, ".>.", "v>v", ".^.", "<<.", ".^."),
-        // 3 Kite · 10 arrows · 6x5 · 4 free at the start · seed 3200
-        level(3, "..<..", ".<>v.", ".^>v.", "..^..", ".^...", "<...."),
-        // 4 Bird · 10 arrows · 4x6 · 3 free at the start · seed 1358
-        level(4, ">....v", ".^..<.", ".^v<<.", "..>v.."),
-        // 5 Heart · 11 arrows · 4x5 · 4 free at the start · seed 16672 (re-authored for pacing, layout 3)
-        level(5, ".>.^.", "^<<^<", ".>vv.", "..>.."),
-        // 6 Star · 12 arrows · 5x5 · 3 free at the start · seed 23817 (re-authored for pacing, layout 3)
-        level(6, "..^..", "..^..", ">v>>v", ".v>^.", ".<.<."),
+        // 1 Heart · 11 arrows · 4x5 · 3 free at the start · seed 1002174 (onboarding re-author, layout 5)
+        level(1, ".<.<.", ">^v>v", ".^v^.", "..<.."),
+        // 2 Star · 11 arrows · 4x5 · 3 free at the start · seed 2136197 (onboarding re-author, layout 5)
+        level(2, "..^..", ">>^>v", ".v<<.", ".v.<."),
+        // 3 Kite · 12 arrows · 6x5 · 4 free at the start · seed 3002416 (onboarding re-author, layout 5)
+        level(3, "..v..", ".v>^.", "<v<^<", "..>..", ".>...", "^...."),
+        // 4 Bird · 12 arrows · 4x6 · 4 free at the start · seed 4038484 (redrawn, layout 5)
+        level(4, "v....>", "v>..>^", ".>v^^.", "..<<.."),
+        // 5 Cloud · 12 arrows · 3x6 · 4 free at the start · seed 5042627 (redrawn; Sky breather, layout 5)
+        level(5, ".>.>..", "^v<^v<", ".<>^v."),
+        // 6 Flower · 12 arrows · 5x5 · 4 free at the start · seed 6035026 (redrawn; Sky finale, layout 5)
+        level(6, ".^<>.", "v^.<<", ".>v^.", "..v..", "..>.."),
 
         // ---- Forest
         // 7 Leaf · 12 arrows · 5x5 · 3 free at the start · seed 5218

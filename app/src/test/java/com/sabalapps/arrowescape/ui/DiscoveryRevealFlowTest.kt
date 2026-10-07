@@ -61,7 +61,7 @@ class DiscoveryRevealFlowTest {
 
         val result = vm.campaignDiscovery.value
         assertNotNull(result)
-        assertEquals("Cloud", result!!.discovery.name)
+        assertEquals("Heart", result!!.discovery.name)
         assertTrue(result.isFirstClear)
         assertEquals("NEW DISCOVERY!", result.headline)
     }
@@ -81,7 +81,7 @@ class DiscoveryRevealFlowTest {
         assertNotNull(again)
         assertFalse(again!!.isFirstClear)
         assertEquals("DISCOVERY FOUND", again.headline)
-        assertEquals("Cloud", again.discovery.name)
+        assertEquals("Heart", again.discovery.name)
     }
 
     @Test
@@ -112,7 +112,7 @@ class DiscoveryRevealFlowTest {
     fun `the discovery does not depend on how well the level was solved`() {
         val perfect = relaunch().also { it.startLevel(1); it.clearLevel() }
         assertEquals(3, perfect.campaignStars.value!!.earned)
-        assertEquals("Cloud", perfect.campaignDiscovery.value!!.discovery.name)
+        assertEquals("Heart", perfect.campaignDiscovery.value!!.discovery.name)
 
         store = InMemoryProgressStore()
         val sloppy = relaunch()
@@ -121,7 +121,7 @@ class DiscoveryRevealFlowTest {
         sloppy.tapBlocked()
         sloppy.clearLevel()
         assertEquals(1, sloppy.campaignStars.value!!.earned)
-        assertEquals("Cloud", sloppy.campaignDiscovery.value!!.discovery.name)
+        assertEquals("Heart", sloppy.campaignDiscovery.value!!.discovery.name)
         assertTrue(sloppy.campaignDiscovery.value!!.isFirstClear)
     }
 
@@ -247,12 +247,12 @@ class DiscoveryRevealFlowTest {
     }
 
     @Test
-    fun `the very first run of the tutorial is a real Campaign Level 1 and does discover the Cloud`() {
+    fun `the very first run of the tutorial is a real Campaign Level 1 and does discover the Heart`() {
         val vm = relaunch()
         vm.continueGame() // first launch: Level 1 with the lesson over it
         vm.clearLevel()
 
-        assertEquals("Cloud", vm.campaignDiscovery.value!!.discovery.name)
+        assertEquals("Heart", vm.campaignDiscovery.value!!.discovery.name)
         assertTrue(vm.campaignDiscovery.value!!.isFirstClear)
     }
 }

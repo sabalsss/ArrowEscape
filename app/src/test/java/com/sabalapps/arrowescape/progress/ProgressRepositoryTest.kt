@@ -242,6 +242,7 @@ class ProgressRepositoryTest {
             "1|2|2|0,1",                                    // before stars: no tally, no layout field
             "2|2|2|0,1|1|1",                                // before layout versions
             board(levelId = 2, ids = "0,1", layout = 1),    // current format, the original layouts
+            board(levelId = 2, ids = "0,1", layout = 4),    // the layouts before the Sky Garden onboarding order
             board(levelId = 2, ids = "0,1", layout = Levels.LAYOUT_VERSION + 1) // or a future set
         )
         for (raw in stale) {

@@ -38,7 +38,7 @@ class CampaignDiscoveriesTest {
     @Test
     fun `the thirty names are the product catalogue`() {
         val expected = listOf(
-            "Cloud", "Flower", "Kite", "Bird", "Heart", "Star",
+            "Heart", "Star", "Kite", "Bird", "Cloud", "Flower",
             "Leaf", "Mushroom", "Tree", "Butterfly", "Fox", "Owl",
             "Sun", "Cactus", "Mountain", "Canyon Arch", "Eagle", "Treasure Chest",
             "Gem", "Crescent Moon", "Crystal", "Snowflake", "Magic Star", "Crown",
@@ -90,7 +90,7 @@ class CampaignDiscoveriesTest {
     @Test
     fun `the thirty art keys are the intended ones`() {
         val expected = listOf(
-            "sky_cloud", "sky_flower", "sky_kite", "sky_bird", "sky_heart", "sky_star",
+            "sky_heart", "sky_star", "sky_kite", "sky_bird", "sky_cloud", "sky_flower",
             "forest_leaf", "forest_mushroom", "forest_tree", "forest_butterfly", "forest_fox", "forest_owl",
             "canyon_sun", "canyon_cactus", "canyon_mountain", "canyon_arch", "canyon_eagle",
             "canyon_treasure_chest",

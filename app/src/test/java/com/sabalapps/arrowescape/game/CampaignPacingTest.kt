@@ -102,6 +102,6 @@ class CampaignPacingTest {
 
     private companion object {
         val BREATHERS = setOf(5, 11, 17, 23, 29)
-        val REAUTHORED = listOf(5, 6, 9, 11, 12, 17, 23, 29)
+        val REAUTHORED = listOf(4, 5, 6, 9, 11, 12, 17, 23, 29)
     }
 }

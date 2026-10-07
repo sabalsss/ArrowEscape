@@ -55,12 +55,12 @@ object CampaignDiscoveries {
     /** Every discovery, in level order. */
     val all: List<CampaignDiscovery> = listOf(
         // ---- Sky Garden
-        discovery(1, "Cloud", DiscoveryType.NATURE, "sky_cloud"),
-        discovery(2, "Flower", DiscoveryType.NATURE, "sky_flower"),
+        discovery(1, "Heart", DiscoveryType.OBJECT, "sky_heart"),
+        discovery(2, "Star", DiscoveryType.SPACE, "sky_star"),
         discovery(3, "Kite", DiscoveryType.OBJECT, "sky_kite"),
         discovery(4, "Bird", DiscoveryType.ANIMAL, "sky_bird"),
-        discovery(5, "Heart", DiscoveryType.OBJECT, "sky_heart"),
-        discovery(6, "Star", DiscoveryType.SPACE, "sky_star"),
+        discovery(5, "Cloud", DiscoveryType.NATURE, "sky_cloud"),
+        discovery(6, "Flower", DiscoveryType.NATURE, "sky_flower"),
 
         // ---- Forest
         discovery(7, "Leaf", DiscoveryType.NATURE, "forest_leaf"),

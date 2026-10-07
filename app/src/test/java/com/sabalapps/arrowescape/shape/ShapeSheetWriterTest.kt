@@ -55,7 +55,7 @@ class ShapeSheetWriterTest {
 
     @Test
     fun `writes the representative contour sheet`() {
-        val campaign = listOf(5 to "Heart", 10 to "Butterfly", 17 to "Eagle", 26 to "Rocket").map { (id, name) ->
+        val campaign = listOf(1 to "Heart", 10 to "Butterfly", 17 to "Eagle", 26 to "Rocket").map { (id, name) ->
             ShapeSheet.Entry("Campaign · $name", ShapeMask.of(com.sabalapps.arrowescape.game.Levels.byId(id)!!), "level $id")
         }
         val mystery = listOf("fish", "house", "key").map { id ->

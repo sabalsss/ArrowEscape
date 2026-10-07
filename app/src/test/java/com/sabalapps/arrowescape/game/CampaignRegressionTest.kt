@@ -27,10 +27,11 @@ import java.security.MessageDigest
  * written against), or a bug.
  *
  * The expected values below describe the thirty discovery-shape layouts as paced
- * in the engagement pass (`Levels.LAYOUT_VERSION` 4): the Phase 2 silhouettes with
+ * in the engagement pass (`Levels.LAYOUT_VERSION` 5): the Phase 2 silhouettes with
  * Levels 5, 6, 9, 11, 12, 17, 23 and 29 re-authored for pacing (version 3), then Levels
- * 10, 17, 21, 24 and 27 redrawn as clearer pictures (version 4). Version 2 was the Phase 2
- * set; the earlier abstract layouts were version 1.
+ * 10, 17, 21, 24 and 27 redrawn as clearer pictures (version 4), then the Sky Garden's
+ * first-session order (Heart, Star, Kite, Bird, Cloud, Flower — Levels 1-6, version 5).
+ * Version 2 was the Phase 2 set; the earlier abstract layouts were version 1.
  */
 class CampaignRegressionTest {
 
@@ -39,7 +40,7 @@ class CampaignRegressionTest {
      * change here is a change to boards players already have progress against.
      */
     private val expectedFingerprint =
-        "f92834911d12e9f956b80bc51a10e90c1cb38e5c3d9abd4afb297521a2ea0ead"
+        "8e3cc50d10d6b91bd50b5b5f998b28d276cd57b29754d0036fab1ce4a586ac96"
 
     @Test
     fun `the thirty curated levels are byte-for-byte unchanged`() {
@@ -55,7 +56,7 @@ class CampaignRegressionTest {
     fun `the layout version names the paced discovery shape layouts`() {
         // Moves together with the fingerprint above: an in-progress save written
         // against any other value is discarded rather than restored onto these.
-        assertEquals(4, Levels.LAYOUT_VERSION)
+        assertEquals(5, Levels.LAYOUT_VERSION)
     }
 
     @Test
@@ -70,14 +71,14 @@ class CampaignRegressionTest {
     @Test
     fun `arrow counts and board shapes are the shipped ones`() {
         assertEquals(
-            listOf(8, 8, 10, 10, 11, 12, 12, 14, 14, 15, 15, 15, 17, 17, 17, 20, 22, 22, 22, 23,
+            listOf(11, 11, 12, 12, 12, 12, 12, 14, 14, 15, 15, 15, 17, 17, 17, 20, 22, 22, 22, 23,
                 24, 24, 28, 28, 28, 28, 32, 32, 34, 35),
             Levels.ALL.map { it.arrows.size }
         )
         // rows x columns. The silhouettes are not rectangles: a board is as tall
         // and wide as its picture (Level 1 alone adds a margin row top and bottom).
         assertEquals(
-            listOf("4x5", "5x3", "6x5", "4x6", "4x5", "5x5", "5x5", "4x6", "6x5", "4x5",
+            listOf("4x5", "4x5", "6x5", "4x6", "3x6", "5x5", "5x5", "4x6", "6x5", "4x5",
                 "5x5", "5x5", "5x5", "7x5", "4x6", "5x6", "6x6", "5x6", "5x6", "7x6",
                 "6x6", "8x6", "8x6", "6x6", "8x6", "8x6", "8x6", "8x6", "8x6", "9x6"),
             Levels.ALL.map { "${it.rows}x${it.columns}" }

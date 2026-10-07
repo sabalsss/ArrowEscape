@@ -50,12 +50,14 @@ class BoardPresentationTest {
     }
 
     @Test
-    fun `level 1 loses its empty margin rows and nothing else`() {
-        val level = Levels.ALL.first { it.id == 1 }
-        val bounds = checkNotNull(OccupiedBounds.of(level.arrows))
-        assertEquals(4, level.rows)
-        assertEquals(2, bounds.rows)
-        assertEquals(level.columns, bounds.columns)
+    fun `no campaign level carries empty margin rows or columns any more`() {
+        // Level 1 used to be the Cloud, framed by an empty row above and below. The Heart that
+        // replaced it is drawn on exactly its own cells, so the occupied bounds are the board.
+        for (level in Levels.ALL) {
+            val bounds = checkNotNull(OccupiedBounds.of(level.arrows))
+            assertEquals("${level.name} rows", level.rows, bounds.rows)
+            assertEquals("${level.name} columns", level.columns, bounds.columns)
+        }
     }
 
     @Test
@@ -82,7 +84,7 @@ class BoardPresentationTest {
 
     @Test
     fun `a small shape is capped rather than blown up to fill the screen`() {
-        // Level 2, the Flower: three columns wide. Uncapped it would be 108dp a side.
+        // Level 2, the Star: five columns wide. Uncapped it would be 64.8dp a side.
         val bounds = checkNotNull(OccupiedBounds.of(Levels.ALL.first { it.id == 2 }.arrows))
         val cell = ShapeFit.cellSize(324f, 520f, bounds.rows, bounds.columns, maxCell = 60f)
         assertEquals(60f, cell, 0f)

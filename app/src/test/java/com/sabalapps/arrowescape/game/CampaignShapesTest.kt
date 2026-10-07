@@ -101,7 +101,7 @@ class CampaignShapesTest {
      * frees another — and each needs the board to supply it.
      */
     @Test
-    fun `the Cloud still carries the whole tutorial lesson`() {
+    fun `the Heart still carries the whole tutorial lesson`() {
         val board = Levels.FIRST.arrows
         val free = board.filter { MoveValidator.canEscape(it, board) }
         val blocked = board.filter { !MoveValidator.canEscape(it, board) }

@@ -1166,6 +1166,14 @@ mid-lesson" tests now describe *before the first escape*).
 9. Reduced motion (remove animations): static hand + ring, no flying arrows, no toast slide.
 10. Largest font: the Settings rows, the prompt card and the loading screen's "ARROW / ESCAPE".
 
+### Fix: world-complete result clipped on short screens (2026-10-07)
+`CompletionLine` (`ui/DiscoveryResultContent.kt`) drew its gold burst canvas with a bare `requiredSize(piece * 3.6f)` inside a
+wrap-content box, so the row *reported* ~3.6 pieces of height and the three buttons fell off a 1080×1920 / ~411×731dp screen
+(Perfect Escape and normal world-complete alike; ordinary reveals were unaffected). The canvas is now
+`matchParentSize().wrapContentSize(unbounded = true).requiredSize(...)` — it still overflows the row on every side but adds no
+height. Verified on the 1080×1920 emulator (Perfect and 2-star world-complete both fit with the buttons at full size) and at
+360×640dp, where the card is taller than the screen and the host's existing `verticalScroll` reaches every button. Nothing else changed.
+
 ### Known limitations of §4l
 
 - Android cannot tell the game whether a Play review was submitted; only "the player pressed Rate" is recorded.

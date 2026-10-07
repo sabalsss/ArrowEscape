@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -581,7 +582,13 @@ private fun CompletionLine(
                         if (schedule.completionBurstMs <= 0) 0f
                         else clock.window(schedule.completionMs, schedule.completionBurstMs)
                     },
-                    modifier = Modifier.requiredSize(piece * 3.6f)
+                    // Overflows the row on every side without adding to its height: a bare
+                    // requiredSize here made the row report 3.6 pieces tall and pushed the
+                    // buttons below it off a short screen.
+                    modifier = Modifier
+                        .matchParentSize()
+                        .wrapContentSize(unbounded = true)
+                        .requiredSize(piece * 3.6f)
                 )
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(COMPLETION_PIECE_GAP),
